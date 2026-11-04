@@ -42,10 +42,12 @@ export async function login(
     .eq("user_id", user.id)
     .single();
 
+  const allowedRoles = ["NM", "BHW"];
+
   if (
     profileError ||
     !profile ||
-    profile.role !== "BHW" ||
+    !allowedRoles.includes(profile.role) ||
     !profile.is_active
   ) {
     await supabase.auth.signOut();
@@ -55,5 +57,9 @@ export async function login(
     };
   }
 
-  redirect("/bhw");
+  if (profile.role === "NM") {
+    redirect("/nm");
+  } else {
+    redirect("/bhw");
+  }
 }
