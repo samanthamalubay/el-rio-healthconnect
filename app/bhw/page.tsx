@@ -79,7 +79,8 @@ export default async function BHWDashboard() {
               </Link>
 
               <Link
-                href="/bhw/patients"
+                //href="/bhw/patients"
+                href="/patients"
                 className="inline-block rounded-md border border-blue-700 bg-white px-5 py-3 font-medium text-blue-700 hover:bg-blue-50"
               >
                 Search Patient

@@ -1,6 +1,7 @@
 import {redirect} from "next/navigation";
 import {createClient} from "@/lib/supabase/server";
 import {logout} from "@/app/bhw/actions";
+import Link from "next/link";
 
 export const instant = false;
 
@@ -52,6 +53,14 @@ export default async function NMDashboard() {
             <p className="mt-3 text-slate-700">
                 Welcome, Nurse/MidWife!
             </p>
+
+            <Link
+                href="/patients"
+                className="inline-block rounded-md border border-blue-700 bg-white px-5 py-3 font-medium text-blue-700 hover:bg-blue-50"
+              >
+                Search Patient
+              </Link>
+            
         </div>
       </div>
     </main>
