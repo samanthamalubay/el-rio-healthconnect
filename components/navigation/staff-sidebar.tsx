@@ -10,8 +10,6 @@ import {
   ClipboardList,
   ClipboardCheck,
   Stethoscope,
-  FileText,
-  CalendarCheck,
   HeartPulse,
 } from "lucide-react";
 
@@ -72,16 +70,7 @@ const navigation = {
       href: "/bhw/patients/new",
       icon: UserRoundPlus,
     },
-    {
-      label: "Program Registration",
-      href: "/bhw/programs/register",
-      icon: FileText,
-    },
-    {
-      label: "Program Follow-ups",
-      href: "/bhw/programs/follow-ups",
-      icon: CalendarCheck,
-    },
+
   ],
 };
 
@@ -117,11 +106,7 @@ export default function StaffSidebar({
           const active =
                 pathname === item.href ||
                 (item.href === "/patients" &&
-                  pathname.startsWith("/patients/")) ||
-                (item.href === "/bhw/programs/register" &&
-                  pathname.startsWith("/bhw/programs/register/")) ||
-                (item.href === "/bhw/programs/follow-ups" &&
-                  pathname.startsWith("/bhw/programs/follow-ups/"));
+                  pathname.startsWith("/patients/"));
 
           return (
             <Link

@@ -13,7 +13,25 @@ export async function startConsultation(formData: FormData) {
     } = await supabase.auth.getUser();
 
     if (authError || !user) {
-        throw new Error("You must be logged in to start a consultation.");
+        throw new Error("You must be logged in.");
+    }
+
+    // Verify the user is an active Doctor
+    const { data: profile, error: profileError } = await supabase
+        .from("staff_profiles")
+        .select("role, is_active")
+        .eq("user_id", user.id)
+        .single();
+
+    if (
+        profileError ||
+        !profile ||
+        profile.role !== "Doctor" ||
+        !profile.is_active
+    ) {
+        throw new Error(
+            "You are not authorized to start Doctor consultations."
+        );
     }
 
     // Retrieve and validate visit ID

@@ -3,12 +3,15 @@ import {createClient} from "@/lib/supabase/server";
 import PatientITR from "@/components/patients/patient-itr";
 import PatientHeader from "@/components/patients/patient-header";
 import ConsultationForm from "./consultation-form";
+import Link from "next/link";
+
+export const instant = false;
 
 export default async function DoctorConsultationPage() {
     const supabase = await createClient();
 
     const {
-        data: { user },
+        data: {user},
         error: authError,
     } = await supabase.auth.getUser();
 
@@ -16,7 +19,7 @@ export default async function DoctorConsultationPage() {
         redirect("/login");
     }
 
-    const { data: profile, error: profileError } = await supabase
+    const {data: profile, error: profileError} = await supabase
         .from("staff_profiles")
         .select("role, is_active")
         .eq("user_id", user.id)
@@ -32,7 +35,7 @@ export default async function DoctorConsultationPage() {
     }
 
     // Retrieve the consultation assigned to the Doctor
-    const { data: activeVisit, error: visitError } = await supabase
+    const {data: activeVisit, error: visitError} = await supabase
         .from("patient_visits")
         .select("visit_id, itr_id, status")
         .eq("consultation_started_by", user.id)
@@ -45,7 +48,32 @@ export default async function DoctorConsultationPage() {
     }
 
     if (!activeVisit) {
-        redirect("/doctor");
+        return (
+            <main className="min-h-screen p-6 lg:p-8">
+                <div className="mx-auto max-w-7xl">
+                    <div className="rounded-lg border border-slate-200 bg-white p-8">
+                        <h1 className="text-2xl font-bold text-slate-900">
+                            No Active Consultation
+                        </h1>
+
+                        <p className="mt-3 text-slate-600">
+                            You do not have an active consultation at the moment.
+                            Please return to the consultation queue to begin
+                            a new consultation.
+                        </p>
+
+                        <Link
+                            href="/doctor"
+                            className="mt-6 inline-flex rounded-md bg-teal-700
+                                    px-4 py-2 text-sm font-medium text-white
+                                    hover:bg-teal-800"
+                        >
+                            Return to Consultation Queue
+                        </Link>
+                    </div>
+                </div>
+            </main>
+        );
     }
 
      //To retrieve patient name

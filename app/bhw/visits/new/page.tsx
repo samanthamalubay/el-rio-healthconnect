@@ -40,7 +40,7 @@ export default async function NewVisitPage({
         !allowedRoles.includes(profile.role) ||
         !profile.is_active
     ) {
-        redirect("/login");
+        redirect("/unauthorized");
     }
 
     //

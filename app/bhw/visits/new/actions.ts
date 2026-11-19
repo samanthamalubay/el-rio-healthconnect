@@ -57,6 +57,23 @@ export async function createVisitAction(formData: FormData) {
     throw new Error("You must be logged in to create a visit.");
     }
 
+    const { data: profile, error: profileError } = await supabase
+      .from("staff_profiles")
+      .select("role, is_active")
+      .eq("user_id", user.id)
+      .single();
+
+    if (
+      profileError ||
+      !profile ||
+      profile.role !== "BHW" ||
+      !profile.is_active
+    ) {
+      throw new Error(
+        "You are not authorized to create patient visits."
+      );
+    }
+
   const height = readOptionalNumber(formData, "height");
   const weight = readRequiredNumber(formData, "weight");
   const heartRate = readRequiredNumber(formData, "heartRate");

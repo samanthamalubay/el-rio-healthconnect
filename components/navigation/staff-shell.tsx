@@ -1,5 +1,6 @@
 import StaffSidebar from "./staff-sidebar";
 import StaffHeader from "./staff-header";
+import {Suspense} from "react";
 
 type StaffRole = "Doctor" | "NM" | "BHW";
 
@@ -17,7 +18,9 @@ export default function StaffShell({
             <StaffSidebar role={role} />
 
             <div className="min-w-0 flex-1">
-                <StaffHeader role={role} />
+                <Suspense fallback={null}>
+                    <StaffHeader role={role} />
+                </Suspense>
 
                 {children}
             </div>

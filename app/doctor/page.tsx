@@ -3,6 +3,8 @@ import {createClient} from "@/lib/supabase/server";
 import {startConsultation} from "./actions";
 import Link from "next/link";
 
+export const instant = false;
+
 type DoctorDashboardProps = {
     searchParams: Promise<{
         success?: string;
@@ -156,7 +158,7 @@ export default async function DoctorDashboard({
 
                 
                 {/* Software Engineering demonstration only */}
-                <section className="mt-6 rounded-lg border border-amber-200 bg-white p-6 shadow-sm">
+               {/* <section className="mt-6 rounded-lg border border-amber-200 bg-white p-6 shadow-sm">
                 <div className="flex flex-wrap items-center justify-between gap-3">
                     <h2 className="text-xl font-semibold text-slate-900">
                     Pending Laboratory Results
@@ -174,7 +176,8 @@ export default async function DoctorDashboard({
 
                 <div className="mt-4 rounded-lg border border-slate-200 p-4">
                     <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-                    <div className="space-y-2">
+                    
+                     <div className="space-y-2">
                         <p className="font-semibold text-slate-900">
                         Alex Rivera (Demo Patient)
                         </p>
@@ -188,15 +191,10 @@ export default async function DoctorDashboard({
                         </span>
                     </div>
 
-                    <Link
-                        href="/doctor/demo/resume-consultation"
-                        className="inline-flex items-center justify-center rounded-md bg-blue-700 px-4 py-2 text-sm font-medium text-white hover:bg-blue-800"
-                    >
-                        Resume Consultation
-                    </Link>
+                   
                     </div>
                 </div>
-                </section>
+                </section>*/}
 
 
         </div>

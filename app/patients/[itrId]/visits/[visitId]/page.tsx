@@ -2,6 +2,8 @@ import Link from "next/link";
 import {notFound, redirect} from "next/navigation";
 import {createClient} from "@/lib/supabase/server";
 
+export const instant = false;
+
 type VisitDetailsPageProps = {
     params: Promise<{
         itrId: string;

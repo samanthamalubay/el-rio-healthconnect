@@ -5,6 +5,8 @@ import AssessmentForm from "./assessment-form";
 import PatientITR from "@/components/patients/patient-itr";
 import Link from "next/link";
 
+export const instant = false;
+
 type AssessmentPageProps = {
     searchParams: Promise<{
         completed?: string;

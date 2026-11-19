@@ -3,17 +3,42 @@
 import {createClient} from "@/lib/supabase/server";
 import {redirect} from "next/navigation";
 
-export async function startAssessment(formData: FormData) {
-    const supabase = await createClient();
-
+async function requireAuthorizedNM(
+    supabase: Awaited<ReturnType<typeof createClient>>
+) {
     const {
         data: {user},
         error: authError,
-        } = await supabase.auth.getUser();
+    } = await supabase.auth.getUser();
 
     if (authError || !user) {
-    throw new Error("You must be logged in to start patient assessment.");
+        throw new Error("You must be logged in.");
     }
+
+    const { data: profile, error: profileError } = await supabase
+        .from("staff_profiles")
+        .select("role, is_active")
+        .eq("user_id", user.id)
+        .single();
+
+    if (
+        profileError ||
+        !profile ||
+        profile.role !== "NM" ||
+        !profile.is_active
+    ) {
+        throw new Error(
+            "You are not authorized to perform NM assessments."
+        );
+    }
+
+    return user;
+}
+
+export async function startAssessment(formData: FormData) {
+    const supabase = await createClient();
+
+    await requireAuthorizedNM(supabase);
 
     const visitId = formData.get("visitId");
     if (typeof visitId !== "string" || !visitId.trim()) {
@@ -41,14 +66,7 @@ export async function completeGeneralAssessment(formData: FormData) {
     const supabase = await createClient();
 
     //Verify if the user is authenticated
-    const {
-        data: { user },
-        error: authError,
-    } = await supabase.auth.getUser();
-
-    if (authError || !user) {
-        throw new Error("You must be logged in to complete an assessment.");
-    }
+    await requireAuthorizedNM(supabase);
 
     //Retrieve form values
     const visitId = formData.get("visitId");
