@@ -1,13 +1,7 @@
-export default function Home() {
-  return (
-    <main className="p-8">
-      <h1 className="text-2xl font-bold">
-        El Rio HealthConnect
-      </h1>
+import {redirect} from "next/navigation";
 
-      <p className="mt-4">
-        Patient Registration Module — Under Development
-      </p>
-    </main>
-  );
+export const instant = false;
+
+export default function Home() {
+    redirect("/login");
 }
