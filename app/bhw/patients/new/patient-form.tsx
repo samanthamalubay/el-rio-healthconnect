@@ -5,6 +5,9 @@ import { registerPatient } from "./actions";
 
 export default function PatientForm() {
   const [dateOfBirth, setDateOfBirth] = useState("");
+  const today = new Date().toLocaleDateString("en-CA");
+  const isFutureDate =
+  dateOfBirth !== "" && dateOfBirth > today;
   const [guardianName, setGuardianName] = useState("");
   const [guardianRelationship, setGuardianRelationship] = useState("");
   const [sameAsGuardian, setSameAsGuardian] = useState(false);
@@ -144,6 +147,7 @@ export default function PatientForm() {
             <label htmlFor="date_of_birth" className={labelStyle}>
               Date of Birth *
             </label>
+
             <input
               id="date_of_birth"
               name="date_of_birth"
@@ -153,8 +157,23 @@ export default function PatientForm() {
               onChange={(event) =>
                 setDateOfBirth(event.target.value)
               }
-              className={inputStyle}
+              aria-invalid={isFutureDate}
+              aria-describedby={
+                isFutureDate ? "date_of_birth_error" : undefined
+              }
+              className={`${inputStyle} ${
+                isFutureDate ? "border-red-500" : ""
+              }`}
             />
+
+            {isFutureDate && (
+              <p
+                id="date_of_birth_error"
+                className="mt-1 text-sm text-red-600"
+              >
+                Date of birth cannot be in the future.
+              </p>
+            )}
           </div>
 
           <div>

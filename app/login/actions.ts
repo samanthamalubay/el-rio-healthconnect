@@ -42,7 +42,7 @@ export async function login(
     .eq("user_id", user.id)
     .single();
 
-  const allowedRoles = ["NM", "BHW"];
+  const allowedRoles = ["NM", "BHW", "Doctor"];
 
   if (
     profileError ||
@@ -59,7 +59,13 @@ export async function login(
 
   if (profile.role === "NM") {
     redirect("/nm");
-  } else {
+  } else if (profile.role === "Doctor") {
+    redirect("/doctor");
+  } else if (profile.role === "BHW") {
     redirect("/bhw");
+  } else {
+    return {
+      error: "Your account is not authorized to access HealthConnect.",
+    };
   }
 }

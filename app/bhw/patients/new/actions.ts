@@ -1,5 +1,6 @@
 "use server";
 
+import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import {
          validateHistoryArrays,
@@ -520,8 +521,6 @@ export async function registerPatient(
     };
   }
 
-  return {
-    error: null,
-    success: true,
-  };
+  // Registration succeeded. Open the newly created patient's ITR.
+  redirect(`/patients/${itrId}`);
 }
